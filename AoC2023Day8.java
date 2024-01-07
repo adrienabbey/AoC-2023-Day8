@@ -1,6 +1,7 @@
 /*
  * Advent of Code 2023, Day 8: Haunted Wasteland
  * Adrien Abbey, Jan. 2024
+ * Part One Solution: 17621
  */
 
 import java.io.File;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 class AoC2023Day8 {
     /* Global Variables */
-    public static String inputFileName = "example2-input.txt";
+    public static String inputFileName = "input.txt";
     public static boolean testing = false;
 
     public static void main(String[] args) throws FileNotFoundException {
