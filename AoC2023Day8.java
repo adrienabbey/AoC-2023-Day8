@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 class AoC2023Day8 {
     /* Global Variables */
-    public static String inputFileName = "example1-input.txt";
+    public static String inputFileName = "input.txt";
     public static boolean testing = true;
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -27,6 +27,8 @@ class AoC2023Day8 {
 
         // Test code:
         if (testing) {
+            System.out.println(directions);
+            System.out.println();
             for (String[] line : nodeList) {
                 System.out.println(line[0] + " = (" + line[1] + ", " + line[2] + ")");
             }
