@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 class AoC2023Day8 {
     /* Global Variables */
-    public static String inputFileName = "input.txt";
-    public static boolean testing = false;
+    public static String inputFileName = "example3-input.txt";
+    public static boolean testing = true;
     public static boolean partTwo = true;
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -83,20 +83,59 @@ class AoC2023Day8 {
                 }
             }
 
+            // Test code:
+            if (testing) {
+                System.out.println(" Starting nodes: " + currentNodes.toString());
+            }
+
             // Start looping through the nodes:
             boolean foundAllZ = false;
             while (!foundAllZ) {
+                // Test code:
+                if (testing) {
+                    System.out.println(" Current steps taken: " + stepsTaken);
+                    for (int index : currentNodes) {
+                        System.out.println(nodeList.get(index)[0] + " = ("
+                                + nodeList.get(index)[1] + ", "
+                                + nodeList.get(index)[2] + ")");
+                    }
+                }
+
                 // For each character in the directions:
                 for (int i = 0; i < directions.length(); i++) {
-                    // Increment each node:
+                    // Increment every node appropriately:
                     for (int j = 0; j < currentNodes.size(); j++) {
                         // If left:
-                        if (directions.charAt(i)=='L'){
+                        if (directions.charAt(i) == 'L') {
                             // Adjust the appropriate node accordingly:
-                            // FIXME
+                            int targetIndex = findIndexOf(nodeList.get(currentNodes.get(j))[1], nodeList);
+                            currentNodes.set(j, targetIndex);
+                        } else if (directions.charAt(i) == 'R') {
+                            // Adjust the node index accordingly:
+                            int targetIndex = findIndexOf(nodeList.get(currentNodes.get(j))[2], nodeList);
+                            currentNodes.set(j, targetIndex);
                         }
                     }
+                    // Increment steps taken:
+                    stepsTaken++;
 
+                    // Check if every current node has reached xxZ:
+                    boolean[] foundZ = new boolean[currentNodes.size()];
+                    for (int j = 0; j < currentNodes.size(); j++) {
+                        if (nodeList.get(currentNodes.get(j))[0].charAt(2) == 'Z') {
+                            foundZ[j] = true;
+                        }
+                    }
+                    // https://stackoverflow.com/a/8260897
+                    foundAllZ = true;
+                    for (boolean found : foundZ) {
+                        if (!found) {
+                            foundAllZ = false;
+                        }
+                    }
+                    if (foundAllZ) {
+                        break;
+                    }
                 }
             }
         }
@@ -146,7 +185,8 @@ class AoC2023Day8 {
                 // Parse the left branch:
                 String leftString = "";
                 for (int i = 0; i < secondSplit[0].length(); i++) {
-                    if (Character.isAlphabetic(secondSplit[0].charAt(i))) {
+                    if (Character.isAlphabetic(secondSplit[0].charAt(i))
+                            || Character.isDigit(secondSplit[0].charAt(i))) {
                         leftString += secondSplit[0].charAt(i);
                     }
                 }
@@ -155,7 +195,8 @@ class AoC2023Day8 {
                 // Parse the right branch:
                 String rightString = "";
                 for (int i = 0; i < secondSplit[1].length(); i++) {
-                    if (Character.isAlphabetic(secondSplit[1].charAt(i))) {
+                    if (Character.isAlphabetic(secondSplit[1].charAt(i))
+                            || Character.isDigit(secondSplit[1].charAt(i))) {
                         rightString += secondSplit[1].charAt(i);
                     }
                 }
