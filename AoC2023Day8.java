@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 class AoC2023Day8 {
     /* Global Variables */
-    public static String inputFileName = "example3-input.txt";
-    public static boolean testing = true;
+    public static String inputFileName = "input.txt";
+    public static boolean testing = false;
     public static boolean partTwo = true;
 
     public static void main(String[] args) throws FileNotFoundException {
