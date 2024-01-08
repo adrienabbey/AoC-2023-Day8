@@ -13,6 +13,7 @@ class AoC2023Day8 {
     /* Global Variables */
     public static String inputFileName = "input.txt";
     public static boolean testing = false;
+    public static boolean partTwo = true;
 
     public static void main(String[] args) throws FileNotFoundException {
         // NOTE: I'm going to always assume valid input, until proven otherwise.
@@ -35,33 +36,67 @@ class AoC2023Day8 {
             }
         }
 
-        // Assumption: The instructions state I need to start at AAA and stop at
-        // ZZZ. I'm assuming I follow the directions in a loop, and stop as
-        // soon as I hit ZZZ.
-
-        // Find the starting index:
-        int startingIndex = findIndexOf("AAA", nodeList);
-
-        // Loop through the directions until ZZZ is found:
-        boolean foundZZZ = false;
-        int currentIndex = startingIndex;
+        // Track the number of steps taken:
         int stepsTaken = 0;
-        while (!foundZZZ) {
-            // For each character in the direction list:
-            for (int i = 0; i < directions.length(); i++) {
-                // If left:
-                if (directions.charAt(i) == 'L') {
-                    // Find the target node and make that the current index:
-                    currentIndex = findIndexOf(nodeList.get(currentIndex)[1], nodeList);
-                    stepsTaken++;
-                } else if (directions.charAt(i) == 'R') {
-                    currentIndex = findIndexOf(nodeList.get(currentIndex)[2], nodeList);
-                    stepsTaken++;
+
+        if (!partTwo) {
+            // Part one steps:
+
+            // Assumption: The instructions state I need to start at AAA and stop at
+            // ZZZ. I'm assuming I follow the directions in a loop, and stop as
+            // soon as I hit ZZZ.
+
+            // Find the starting index:
+            int startingIndex = findIndexOf("AAA", nodeList);
+
+            // Loop through the directions until ZZZ is found:
+            boolean foundZZZ = false;
+            int currentIndex = startingIndex;
+
+            while (!foundZZZ) {
+                // For each character in the direction list:
+                for (int i = 0; i < directions.length(); i++) {
+                    // If left:
+                    if (directions.charAt(i) == 'L') {
+                        // Find the target node and make that the current index:
+                        currentIndex = findIndexOf(nodeList.get(currentIndex)[1], nodeList);
+                        stepsTaken++;
+                    } else if (directions.charAt(i) == 'R') {
+                        currentIndex = findIndexOf(nodeList.get(currentIndex)[2], nodeList);
+                        stepsTaken++;
+                    }
+                    // If we found ZZZ, stop:
+                    if (nodeList.get(currentIndex)[0].contains("ZZZ")) {
+                        foundZZZ = true;
+                        break;
+                    }
                 }
-                // If we found ZZZ, stop:
-                if (nodeList.get(currentIndex)[0].contains("ZZZ")) {
-                    foundZZZ = true;
-                    break;
+            }
+        } else {
+            // Part two steps:
+
+            // Find all the valid starting points:
+            ArrayList<Integer> currentNodes = new ArrayList<>();
+            for (int i = 0; i < nodeList.size(); i++) {
+                if (nodeList.get(i)[0].charAt(2) == 'A') {
+                    currentNodes.add(i);
+                }
+            }
+
+            // Start looping through the nodes:
+            boolean foundAllZ = false;
+            while (!foundAllZ) {
+                // For each character in the directions:
+                for (int i = 0; i < directions.length(); i++) {
+                    // Increment each node:
+                    for (int j = 0; j < currentNodes.size(); j++) {
+                        // If left:
+                        if (directions.charAt(i)=='L'){
+                            // Adjust the appropriate node accordingly:
+                            // FIXME
+                        }
+                    }
+
                 }
             }
         }
