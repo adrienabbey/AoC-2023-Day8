@@ -8,14 +8,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 class AoC2023Day8 {
     /* Global Variables */
-    public static String inputFileName = "example3-input.txt";
-    public static boolean testing = true;
+    public static String inputFileName = "input.txt";
+    public static boolean testing = false;
     public static boolean partTwo = true;
     public static ArrayList<String> inputStrings = new ArrayList<>();
     public static ArrayList<Node> nodeList = new ArrayList<>();
+    public static int stepsTaken = 0;
 
     public static void main(String[] args) throws FileNotFoundException {
         // NOTE: I'm going to always assume valid input, until proven otherwise.
@@ -39,7 +43,6 @@ class AoC2023Day8 {
         }
 
         // Track the number of steps taken:
-        int stepsTaken = 0;
 
         if (!partTwo) {
             // Part one steps:
@@ -77,6 +80,16 @@ class AoC2023Day8 {
         } else {
             // Part two steps:
 
+            // Add a Runnable to track progress:
+            Runnable timerRunnable = new Runnable() {
+                public void run() {
+                    System.out.println(" Steps taken: " + stepsTaken);
+                }
+            };
+
+            ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+            executorService.scheduleAtFixedRate(timerRunnable, 0, 10, TimeUnit.SECONDS);
+
             // Find all the valid starting points:
             ArrayList<Integer> currentNodes = new ArrayList<>();
             for (int i = 0; i < nodeList.size(); i++) {
@@ -110,7 +123,7 @@ class AoC2023Day8 {
                     }
                     // Increment steps taken:
                     stepsTaken++;
-                    
+
                     // Test code:
                     if (testing) {
                         System.out.println(" Current steps taken: " + stepsTaken);
