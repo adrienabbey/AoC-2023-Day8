@@ -11,9 +11,9 @@ import java.util.Scanner;
 
 class AoC2023Day8 {
     /* Global Variables */
-    public static String inputFileName = "input.txt";
+    public static String inputFileName = "example3-input.txt";
     public static boolean testing = true;
-    public static boolean partTwo = false;
+    public static boolean partTwo = true;
     public static ArrayList<String> inputStrings = new ArrayList<>();
     public static ArrayList<Node> nodeList = new ArrayList<>();
 
@@ -93,14 +93,6 @@ class AoC2023Day8 {
             // Start looping through the nodes:
             boolean foundAllZ = false;
             while (!foundAllZ) {
-                // Test code:
-                if (testing) {
-                    System.out.println(" Current steps taken: " + stepsTaken);
-                    for (int index : currentNodes) {
-                        System.out.println(nodeList.get(index));
-                    }
-                }
-
                 // For each character in the directions:
                 for (int i = 0; i < directions.length(); i++) {
                     // Increment every node appropriately:
@@ -118,6 +110,14 @@ class AoC2023Day8 {
                     }
                     // Increment steps taken:
                     stepsTaken++;
+                    
+                    // Test code:
+                    if (testing) {
+                        System.out.println(" Current steps taken: " + stepsTaken);
+                        for (int index : currentNodes) {
+                            System.out.println(nodeList.get(index));
+                        }
+                    }
 
                     // Check if every current node has reached xxZ:
                     boolean[] foundZ = new boolean[currentNodes.size()];
