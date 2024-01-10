@@ -92,16 +92,16 @@ class AoC2023Day8 {
             executorService.scheduleAtFixedRate(timerRunnable, 0, 10, TimeUnit.SECONDS);
 
             // Find all the valid starting points:
-            ArrayList<Integer> currentNodeIndexes = new ArrayList<>();
+            ArrayList<Integer> currentNodeIndexList = new ArrayList<>();
             for (int i = 0; i < nodeList.size(); i++) {
                 if (nodeList.get(i).getName().charAt(2) == 'A') {
-                    currentNodeIndexes.add(i);
+                    currentNodeIndexList.add(i);
                 }
             }
 
             // Test code:
             if (testing) {
-                System.out.println(" Starting nodes: " + currentNodeIndexes.toString());
+                System.out.println(" Starting nodes: " + currentNodeIndexList.toString());
             }
 
             // Start looping through the nodes:
@@ -110,18 +110,18 @@ class AoC2023Day8 {
                 // For each character in the directions:
                 for (int directionIndex = 0; directionIndex < directions.length(); directionIndex++) {
                     // Increment every node appropriately:
-                    for (int currentNodeIndex = 0; currentNodeIndex < currentNodeIndexes.size(); currentNodeIndex++) {
+                    for (int currentNodeIndex = 0; currentNodeIndex < currentNodeIndexList.size(); currentNodeIndex++) {
                         // If left:
                         if (directions.charAt(directionIndex) == 'L') {
                             // Adjust the appropriate node accordingly:
                             int targetIndex = findIndexOf(
-                                    nodeList.get(currentNodeIndexes.get(currentNodeIndex)).getLeft());
-                            currentNodeIndexes.set(currentNodeIndex, targetIndex);
+                                    nodeList.get(currentNodeIndexList.get(currentNodeIndex)).getLeft());
+                            currentNodeIndexList.set(currentNodeIndex, targetIndex);
                         } else if (directions.charAt(directionIndex) == 'R') {
                             // Adjust the node index accordingly:
-                            int targetIndex = findIndexOf(
-                                    nodeList.get(currentNodeIndexes.get(currentNodeIndex)).getRight());
-                            currentNodeIndexes.set(currentNodeIndex, targetIndex);
+                            int targetNodeIndex = findIndexOf(
+                                    nodeList.get(currentNodeIndexList.get(currentNodeIndex)).getRight());
+                            currentNodeIndexList.set(currentNodeIndex, targetNodeIndex);
                         }
                     }
                     // Increment steps taken:
@@ -130,21 +130,21 @@ class AoC2023Day8 {
                     // Test code:
                     if (testing) {
                         System.out.println(" Current steps taken: " + stepsTaken);
-                        for (int index : currentNodeIndexes) {
+                        for (int index : currentNodeIndexList) {
                             System.out.println(nodeList.get(index));
                         }
                     }
 
                     // Check if every current node has reached xxZ:
-                    boolean[] foundZ = new boolean[currentNodeIndexes.size()];
-                    for (int currentNodeIndex = 0; currentNodeIndex < currentNodeIndexes.size(); currentNodeIndex++) {
-                        if (nodeList.get(currentNodeIndexes.get(currentNodeIndex)).getName().charAt(2) == 'Z') {
-                            foundZ[currentNodeIndex] = true;
+                    boolean[] foundZatIndex = new boolean[currentNodeIndexList.size()];
+                    for (int currentNodeIndex = 0; currentNodeIndex < currentNodeIndexList.size(); currentNodeIndex++) {
+                        if (nodeList.get(currentNodeIndexList.get(currentNodeIndex)).getName().charAt(2) == 'Z') {
+                            foundZatIndex[currentNodeIndex] = true;
                         }
                     }
                     // https://stackoverflow.com/a/8260897
                     foundAllZ = true;
-                    for (boolean found : foundZ) {
+                    for (boolean found : foundZatIndex) {
                         if (!found) {
                             foundAllZ = false;
                         }
