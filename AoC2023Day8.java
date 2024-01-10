@@ -81,6 +81,7 @@ class AoC2023Day8 {
             // Part two steps:
 
             // Add a Runnable to track progress:
+            // https://stackoverflow.com/a/12908467
             Runnable timerRunnable = new Runnable() {
                 public void run() {
                     System.out.println(" Steps taken: " + stepsTaken);
