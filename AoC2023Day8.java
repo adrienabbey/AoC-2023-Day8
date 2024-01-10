@@ -92,34 +92,36 @@ class AoC2023Day8 {
             executorService.scheduleAtFixedRate(timerRunnable, 0, 10, TimeUnit.SECONDS);
 
             // Find all the valid starting points:
-            ArrayList<Integer> currentNodes = new ArrayList<>();
+            ArrayList<Integer> currentNodeIndexes = new ArrayList<>();
             for (int i = 0; i < nodeList.size(); i++) {
                 if (nodeList.get(i).getName().charAt(2) == 'A') {
-                    currentNodes.add(i);
+                    currentNodeIndexes.add(i);
                 }
             }
 
             // Test code:
             if (testing) {
-                System.out.println(" Starting nodes: " + currentNodes.toString());
+                System.out.println(" Starting nodes: " + currentNodeIndexes.toString());
             }
 
             // Start looping through the nodes:
             boolean foundAllZ = false;
             while (!foundAllZ) {
                 // For each character in the directions:
-                for (int i = 0; i < directions.length(); i++) {
+                for (int directionIndex = 0; directionIndex < directions.length(); directionIndex++) {
                     // Increment every node appropriately:
-                    for (int j = 0; j < currentNodes.size(); j++) {
+                    for (int currentNodeIndex = 0; currentNodeIndex < currentNodeIndexes.size(); currentNodeIndex++) {
                         // If left:
-                        if (directions.charAt(i) == 'L') {
+                        if (directions.charAt(directionIndex) == 'L') {
                             // Adjust the appropriate node accordingly:
-                            int targetIndex = findIndexOf(nodeList.get(currentNodes.get(j)).getLeft());
-                            currentNodes.set(j, targetIndex);
-                        } else if (directions.charAt(i) == 'R') {
+                            int targetIndex = findIndexOf(
+                                    nodeList.get(currentNodeIndexes.get(currentNodeIndex)).getLeft());
+                            currentNodeIndexes.set(currentNodeIndex, targetIndex);
+                        } else if (directions.charAt(directionIndex) == 'R') {
                             // Adjust the node index accordingly:
-                            int targetIndex = findIndexOf(nodeList.get(currentNodes.get(j)).getRight());
-                            currentNodes.set(j, targetIndex);
+                            int targetIndex = findIndexOf(
+                                    nodeList.get(currentNodeIndexes.get(currentNodeIndex)).getRight());
+                            currentNodeIndexes.set(currentNodeIndex, targetIndex);
                         }
                     }
                     // Increment steps taken:
@@ -128,16 +130,16 @@ class AoC2023Day8 {
                     // Test code:
                     if (testing) {
                         System.out.println(" Current steps taken: " + stepsTaken);
-                        for (int index : currentNodes) {
+                        for (int index : currentNodeIndexes) {
                             System.out.println(nodeList.get(index));
                         }
                     }
 
                     // Check if every current node has reached xxZ:
-                    boolean[] foundZ = new boolean[currentNodes.size()];
-                    for (int j = 0; j < currentNodes.size(); j++) {
-                        if (nodeList.get(currentNodes.get(j)).getName().charAt(2) == 'Z') {
-                            foundZ[j] = true;
+                    boolean[] foundZ = new boolean[currentNodeIndexes.size()];
+                    for (int currentNodeIndex = 0; currentNodeIndex < currentNodeIndexes.size(); currentNodeIndex++) {
+                        if (nodeList.get(currentNodeIndexes.get(currentNodeIndex)).getName().charAt(2) == 'Z') {
+                            foundZ[currentNodeIndex] = true;
                         }
                     }
                     // https://stackoverflow.com/a/8260897
